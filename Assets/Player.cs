@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
         Debug.Log("Move");
     }
 
-    public void Shoot()
+    public void Shoot(InputAction.CallbackContext callbackContext)
     {
         
     }
