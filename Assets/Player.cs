@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,10 +6,13 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof (PlayerInput))]
 [RequireComponent(typeof (ProjectilePooling))]
+[RequireComponent(typeof(Collision))]
 
 public class Player : MonoBehaviour
 {
     private ProjectilePooling thisProjectilePool;
+
+    [SerializeField] private GameManager gameManger;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,5 +49,14 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(1.0f);
         }
         thisProjectilePool.projectilePool.Release(projectile);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.TryGetComponent(typeof(Pickup), out Component component))
+        {
+            gameManger.AddDistance(20f);
+            Debug.Log("Pickup");
+        }
     }
 }

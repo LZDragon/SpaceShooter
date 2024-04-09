@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text distanceText;
+    [SerializeField] private GameObject pickupPrefab;
 
     private float distance = 0;
     private bool isPlaying = true;
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(UpdateDistance());
+        StartCoroutine(GeneratePickup());
     }
 
     // Update is called once per frame
@@ -34,11 +36,26 @@ public class GameManager : MonoBehaviour
         }    
     }
 
+    IEnumerator GeneratePickup()
+    {
+        while (isPlaying)
+        {
+            Instantiate(pickupPrefab, new Vector3(9, Random.Range(-4f, 5f), 0.0f), Quaternion.identity);
+            yield return new WaitForSeconds(5f);
+        }
+    }
+
     void CheckWin()
     {
-        if (distance >= 1000)
+        if (distance >= 200)
         {
+            isPlaying = false;
             SceneManager.LoadScene(2);
         }
+    }
+
+    public void AddDistance(float amount)
+    {
+        distance += amount;
     }
 }
