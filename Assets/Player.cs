@@ -31,7 +31,19 @@ public class Player : MonoBehaviour
     {
         if (callbackContext.performed)
         {
-            thisProjectilePool.projectilePool.Get();
+            GameObject shotProjectile = thisProjectilePool.projectilePool.Get();
+            StartCoroutine(ProjectileLifetime(shotProjectile));
         }
+    }
+
+    private IEnumerator ProjectileLifetime(GameObject projectile)
+    {
+        float t = 0;
+        while (t < 5)
+        {
+            t += 1f;
+            yield return new WaitForSeconds(1.0f);
+        }
+        thisProjectilePool.projectilePool.Release(projectile);
     }
 }
