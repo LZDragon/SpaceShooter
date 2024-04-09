@@ -6,11 +6,13 @@ using UnityEngine.Pool;
 
 public class ProjectilePooling : MonoBehaviour
 {
-    GameObject projectilePrefab;
+    public GameObject projectilePrefab;
+
+    public ObjectPool<GameObject> projectilePool;
     // Start is called before the first frame update
     void Start()
     {
-        ObjectPool<GameObject> projectilePool = new ObjectPool<GameObject>(CreateNewProjectile,OnProjectileRetrieved,OnProjectileReleased);
+        projectilePool = new ObjectPool<GameObject>(CreateNewProjectile,OnProjectileRetrieved,OnProjectileReleased);
     }
 
     private GameObject CreateNewProjectile()
@@ -22,7 +24,9 @@ public class ProjectilePooling : MonoBehaviour
 
     void OnProjectileRetrieved(GameObject projectile)
     {
+        projectile.gameObject.transform.position = gameObject.transform.position;
         projectile.SetActive(true);
+        
         
     }
 

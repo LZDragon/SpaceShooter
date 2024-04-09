@@ -4,13 +4,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof (PlayerInput))]
+[RequireComponent(typeof (ProjectilePooling))]
 
 public class Player : MonoBehaviour
 {
+    private ProjectilePooling thisProjectilePool;
     // Start is called before the first frame update
     void Start()
     {
-
+        thisProjectilePool = gameObject.GetComponent<ProjectilePooling>();
     }
 
     // Update is called once per frame
@@ -27,6 +29,9 @@ public class Player : MonoBehaviour
 
     public void Shoot(InputAction.CallbackContext callbackContext)
     {
-        
+        if (callbackContext.performed)
+        {
+            thisProjectilePool.projectilePool.Get();
+        }
     }
 }
